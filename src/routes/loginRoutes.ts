@@ -10,7 +10,13 @@ function requireAuth(req: Request, res: Response, next: NextFunction): void {
      return;
   }
   res.status(403);
-  res.send('Not permitted');
+  res.send(`
+    <div>
+      <div> Not Permitted! </div>
+      <div> You are NOT logged in </div>
+      <a href="/login">Login</a>
+    </div>
+  `);
 }
 
 const router = Router();
@@ -50,6 +56,7 @@ router.get('/', (req: Request, res: Response) => {
     res.send(`
       <div>
         <div> You are logged in </div>
+        <a href="/protected">Protected content</a></br>
         <a href="/logout">Logout</a>
       </div>
     `);
@@ -69,7 +76,11 @@ router.get('/logout', (req: Request, res: Response) => {
 });
 
 router.get('/protected', requireAuth, (req: Request, res: Response) => {
-  res.send('Welcome to protected route, logged in user!');
-});
+  res.send(`
+    <div>
+      <div>Welcome to protected route, logged in user! </div>
+      <a href="/logout">Logout</a>
+    </div>
+`)});
 
 export { router };
